@@ -1,5 +1,7 @@
-from tasks import add
+import os
 import time
+from tasks import add
+
 
 def process_task(x, y):
     """
@@ -14,11 +16,18 @@ def process_task(x, y):
 
     # 작업 완료 대기
     while not result.ready():
-        print("Task 준비되지 않았습니다....대기중입니다.")
+        print("Task가 준비되지 않았습니다....대기중입니다.")
         time.sleep(1)
 
     # 작업 결과 출력
     print("Result:", result.get())
+
+
+def clear_console():
+    if os.name == 'nt':  # Windows
+        os.system('cls')
+    else:  # macOS, Linux
+        os.system('clear')
 
 
 def main():
@@ -31,6 +40,7 @@ def main():
         user_input = input("2개의 정수를 입력하세요 : ").strip()
         
         if user_input.lower() == 'exit':
+            clear_console()
             print("👋🏻어플리케이션을 종료합니다!")
             break
         
