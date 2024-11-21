@@ -1,3 +1,15 @@
+# ⚠️주의사항
+
+* **window 환경에서는 실행 제한이 있음(WSL2 환경에서 테스트)**
+    * Celery가 windows에서 `prefork` 실행 방식을 사용할 때 발생하는 멀티프로세싱 이슈
+    * Celery의 기본 프로세스 풀 방식 : `prefork` ➡️ 부모 프로세스가 작업 프로세스(worker)를 여러개 생성하고 이를 통해 병렬처리 진행<br>
+      Windows 멀티 프로세싱 : `spawn`<br>
+      Unix/Linux 멀티 프로세싱 : `fork`<br>
+    * 위의 개념에 대해서 숙지 필요
+
+
+
+
 # 개요
 
 
@@ -71,13 +83,13 @@ def add(x, y):
     return x + y
 ```
 
-```bash
-celery -A tasks worker --loglevel=info
-```
-
 ### 4. main.py 작성 & 실행
+1. Celery의 `add` 작업을 비동기로 실행하고, 작업 ID와 상태를 출력
+2. 작업 결과가 준비될 때까지 1초 간격으로 대기
+3. 작업이 완료되면 결과를 출력
 ```python
 from tasks import add
+import time
 
 # 작업을 비동기로 실행
 result = add.delay(4, 6)
@@ -85,5 +97,19 @@ result = add.delay(4, 6)
 # 작업 결과 확인
 print("Task ID:", result.id)
 print("Result Ready?", result.ready())
-print("Result:", result.get(timeout=10))  # 결과를 기다리며 가져오기
+
+while not result.ready():
+    print("Task is not ready yet, waiting...")
+    time.sleep(1)
+
+print("Result :", result.get())
+```
+
+
+### 5. 작업 등록 및 main에서 작업 실행 반환 대기
+```bash
+celery -A tasks worker --loglevel=info
+
+# Windows 환경에서 싱글 프로세스로 실행 (Windows는 멀티프로세싱 지원이 제한됨)
+celery -A tasks worker --loglevel=info --pool=solo
 ```
