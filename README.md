@@ -8,8 +8,6 @@
     * 위의 개념에 대해서 숙지 필요
 
 
-
-
 # 개요
 
 
@@ -112,4 +110,13 @@ celery -A tasks worker --loglevel=info
 
 # Windows 환경에서 싱글 프로세스로 실행 (Windows는 멀티프로세싱 지원이 제한됨)
 celery -A tasks worker --loglevel=info --pool=solo
+```
+
+
+# 실행
+```bash
+# 실행 권한 부여(최초에만)
+chmod +x run.sh
+
+./run.sh
 ```
