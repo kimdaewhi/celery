@@ -1,5 +1,6 @@
 from celery import Celery
 import time
+import pydantic
 
 # Celery Application 설정
 app = Celery('tasks', 
@@ -12,3 +13,8 @@ app = Celery('tasks',
 def add(x, y):
     time.sleep(1.5)
     return x + y
+
+
+@app.task
+def create_order_book(stk_code: str):
+    return "this is order_book"
