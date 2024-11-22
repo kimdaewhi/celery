@@ -32,11 +32,13 @@ class OrderScheme(BaseModel):
             raise ValueError("지정가 주문일 경우 price 값은 필수입니다.")
         return values
 
+
 # Annotation 이용한 작업 정의
 @app.task
 def add(x, y):
     time.sleep(1.5)
     return x + y
+
 
 
 # 주문지 생성 task
