@@ -135,7 +135,7 @@ c. 출력된 메시지에서 Worker가 정상적으로 실행된 것을 확인�
 ### 2. 작업 등록 후 Shell script 실행
 ![alt text](readmeImgs/image-3.png)</br>
 a. `run.sh` 파일을 통해 Docker Compose로 Redis 및 Celery 워커 컨테이너 실행 후 가상환경 활성화 및 
-`main.py` 실행.  
+`main.py` 실행. 이 과정에서 등록된 패키지도 동시에 설치(requirements.txt)  
 b. `main.py`는 사용자 입력을 기다리며, 명령어에 따라 작업 생성 및 확인을 수행.  
 c. `main.py` 실행  
 정상: Shell Script가 예상대로 Redis와 Celery 환경을 설정하고 실행.
