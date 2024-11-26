@@ -125,6 +125,12 @@ chmod +x run.sh
 ---
 # 실행 결과
 
+### 📒 요약
+1. Celery Worker 실행 → 작업 대기 상태 준비
+2. Shell Script 실행 → Docker 컨테이너 실행, 환경 초기화
+3. 작업 생성 → 메시지 큐에 Task 등록
+4. 작업 처리 → Celery Worker가 메시지 큐 작업을 비동기로 처리
+
 ### 1. celery 명령어로 task 등록
 a. `celery -A tasks worker --loglevel=info` 명령어로 `tasks.py`에 정의된 Celery 작업을 워커로 등록.  
 b. Celery worker는 Redis와 연결되어 메시지 큐에 작업이 들어올 때 이를 처리 대기 상태로 준비.  
@@ -154,10 +160,3 @@ b. Celery Worker는 Redis 큐에 있는 작업을 비동기적으로 처리하�
 c. 출력 결과로 각 Task ID와 처리 결과(계산 결과)가 정상적으로 출력됨.  
 정상: Celery Worker가 Redis 메시지 큐에 있는 작업을 처리.
 ![alt text](readmeImgs/image-5.png)
-
-
-### 📒 요약
-1. Celery Worker 실행 → 작업 대기 상태 준비
-2. Shell Script 실행 → Docker 컨테이너 실행, 환경 초기화
-3. 작업 생성 → 메시지 큐에 Task 등록
-4. 작업 처리 → Celery Worker가 메시지 큐 작업을 비동기로 처리
